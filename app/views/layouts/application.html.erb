@@ -22,9 +22,9 @@
     <style>
 
       /* タイトル全体のスタイル */
-      .header-title h1 {
+      .header-title h2 {
         font-family: 'Quicksand', sans-serif;  /* Quicksandを使用 */
-        font-size: 2.5rem;  /* フォントサイズ */
+        font-size: 1.5rem;  /* フォントサイズ */
         letter-spacing: 5px;  /* 文字間隔を広げる */
         display: flex;  /* Flexboxを使って横並びに */
         justify-content: center; /* 横中央揃え */
@@ -40,8 +40,8 @@
         background-color: #b3e6b3;  /* パステルグリーン */
         color: white;  /* 文字色を白 */
         border-radius: 50%;  /* 丸くする */
-        width: 100px;  /* 横のサイズ */
-        height: 100px; /* 高さも同じにして正円にする */
+        width: 60px;  /* 横のサイズ */
+        height: 60px; /* 高さも同じにして正円にする */
         font-weight: bold;  /* 文字を太く */
         margin: 0 5px;  /* 丸の前後にスペースを追加 */
         text-align: center;  /* 横中央揃え */
@@ -63,27 +63,27 @@
     <header class="d-flex flex-column">
       <!-- 1段目 : タイトル -->
       <div class="header-title text-center">
-        <h1 class="text-center">
+        <h2 class="text-center">
           Local Event Info in <span class="highlight">岡山</span>
-        </h1>
+        </h2>
       </div>
 
       <!-- 2段目 : リンク -->
       <div class="header-links">
         <ul class="d-flex justify-content-center list-unstyled">
           <% if user_signed_in? %>
-            <li class="mx-5">
+            <li class="mx-4">
               <%= link_to "Log out", destroy_user_session_path, method: :delete %>
             </li>
           <% else %>
             </li>
-            <li class="mx-5">
+            <li class="mx-4">
               <%= link_to "Home", top_homes_path %>
             </li>
-            <li class="mx-5">
-              <%= link_to "My page", new_user_session_path %>
+            <li class="mx-4">
+              <%= link_to "My page", users_path %>
             </li>
-            <li class="mx-5">
+            <li class="mx-4">
               <%= link_to "Sign up", new_user_registration_path %>
             </li>
           <% end %>

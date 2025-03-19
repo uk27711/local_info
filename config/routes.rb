@@ -9,5 +9,6 @@ Rails.application.routes.draw do
     resources :posts, only: [:index, :show, :edit, :create, :update, :destroy] do
   end
     resources :users, only: [:new, :create, :show, :edit, :update, :index, :destroy] do
+      get 'my_page', on: :collection, to: 'users#show', as: 'my_page'
   end 
 end
