@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!  # ユーザーがサインインしていることを確認
+  before_action :authenticate_user!  # サインインしていないユーザーにはアクセスできないようにする
   before_action :correct_user, only: [:edit, :update]
 
   def new
   end
 
   def show
-    @user = current_user  # サインインしたユーザーの情報を取得
+    @user = User.find(params[:id])  # ユーザー情報を取得
   end
 
   def index
@@ -16,7 +16,8 @@ class UsersController < ApplicationController
   end
 
   private
+
   def user_params
-    params.require(:user).permit(:title, :body, :image)
+    params.require(:user).permit(:name, :introduction, :profile_image)
   end
 end

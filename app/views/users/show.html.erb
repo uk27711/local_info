@@ -1,10 +1,66 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+Users#show
+<table class='table'>
+  <tr>
+    <td class="d-flex align-items-center justify-content-start">
+      <%= link_to edit_user_path do %>
+        <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle mr-2 profile-img" %>
+        <p><%= @user.name %></p>
+      <% end %>
 
+      <!-- 投稿フォームへのリンクボタン -->
+      <%= link_to new_post_path, class: 'btn btn-primary ml-3 d-flex flex-column align-items-center' do %>
+        <i class="fa fa-arrow-up-from-bracket mb-2"></i>
+        Upload
+      <% end %>
+    </td>
+  </tr>
+</table>
 
-<%= link_to edit_user_path do %>
-  <% if user.image.attached? %>
-    <%= image_tag user_image(100, 100) %>
-  <% else %>
-    <%= image_tag 'no_image', size: "100x100" %>
-<% end %>
+<div class="d-flex flex-wrap justify-content-center">
+  <% @user.posts.each do |post| %>
+    <div class="card" style="width: 18rem; margin: 10px;">
+      <% if post.image.attached? %>
+        <%= image_tag post.image.variant(resize_to_limit: [300, 300]).processed, class: 'card-img-top' %>
+      <% else %>
+        <%= image_tag 'no_image.png', class: 'card-img-top' %>
+      <% end %>
+      <div class="card-body">
+        <h5 class="card-title"><%= post.title %></h5>
+        <%= link_to 'View Details', post_path(post), class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  /* 画像のサイズを調整 */
+  .profile-img {
+    width: 50px;  /* 幅を50pxに設定 */
+    height: 50px;  /* 高さを50pxに設定 */
+    object-fit: cover;  /* 画像が円形に収まるように調整 */
+  }
+  /* アイコンボタンのスタイル調整 */
+  .btn {
+    display: flex;
+    flex-direction: column; /* アイコンとテキストを縦に並べる */
+    align-items: center;
+    border: none;  /* 外枠を消す */
+    outline: none;  /* フォーカス時の枠線も消す */
+    background-color: #007bff;  /* ボタンの背景色 */
+    color: white;  /* テキスト色 */
+  }
+
+  .btn i {
+    margin-bottom: 5px;  /* アイコンとテキストの間にスペースを追加 */
+  }
+
+  /* ボタンにマウスオーバー時のスタイル */
+  .btn:hover {
+    background-color: #0056b3;  /* ボタンのホバー時の色 */
+  }
+
+  /* ボタンをクリックしたときの効果 */
+  .btn:focus {
+    outline: none;  /* フォーカス時の枠線を消す */
+  }
+</style>
