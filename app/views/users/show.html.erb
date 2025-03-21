@@ -1,8 +1,24 @@
 Users#show
+<!DOCTYPE html>
+<html lang="ja">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Page</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b00ef6c67b.js" crossorigin="anonymous"></script>
+
+
 <table class='table'>
   <tr>
     <td class="d-flex align-items-center justify-content-start">
-      <%= link_to edit_user_path do %>
+      <%= link_to edit_user_path(id: @user.id) do %>
         <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle mr-2 profile-img" %>
         <p><%= @user.name %></p>
       <% end %>
@@ -64,3 +80,4 @@ Users#show
     outline: none;  /* フォーカス時の枠線を消す */
   }
 </style>
+</html>

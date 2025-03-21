@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])  # ユーザー情報を取得
+    @user = current_user
   end
 
   def index
@@ -16,6 +16,13 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def correct_user
+    @user = User.find(params[:id])
+    unless current_user == @user
+      redirect_to user_path(current_user), alert: "You are not authorized to edit this user."
+    end
+  end
 
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
