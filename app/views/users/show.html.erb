@@ -20,13 +20,15 @@ Users#show
     <td class="d-flex align-items-center justify-content-start">
       <%= link_to edit_user_path(id: @user.id) do %>
         <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle mr-2 profile-img" %>
-        <p><%= @user.name %></p>
+        <p style="font-family: 'Quicksand', sans-serif;"><%= @user.name %></p> <!-- フォントをQuicksandに変更 -->
       <% end %>
 
       <!-- 投稿フォームへのリンクボタン -->
-      <%= link_to new_post_path, class: 'btn btn-primary ml-3 d-flex flex-column align-items-center' do %>
-        <i class="fa fa-arrow-up-from-bracket mb-2"></i>
-        Upload
+      <%= link_to new_post_path, class: 'btn-upload btn btn-primary ml-3 d-flex flex-column align-items-center' do %>
+        <p style="font-family: 'Quicksand', sans-serif;"> <!-- フォントをQuicksandに変更 -->
+          <i class="fa fa-arrow-up-from-bracket mb-2"></i><br>
+          Upload
+        </p>
       <% end %>
     </td>
   </tr>
@@ -36,48 +38,73 @@ Users#show
   <% @user.posts.each do |post| %>
     <div class="card" style="width: 18rem; margin: 10px;">
       <% if post.image.attached? %>
-        <%= image_tag post.image.variant(resize_to_limit: [300, 300]).processed, class: 'card-img-top' %>
+        <%= image_tag post.image.variant(resize_to_limit: [300, 300]).processed, class: 'card-img-top square-img' %>
       <% else %>
-        <%= image_tag 'no_image.png', class: 'card-img-top' %>
+        <%= image_tag 'no_image.png', class: 'card-img-top square-img' %>
       <% end %>
       <div class="card-body">
         <h5 class="card-title"><%= post.title %></h5>
-        <%= link_to 'View Details', post_path(post), class: 'btn btn-primary' %>
+        <%= link_to 'View Details', post_path(post), class: 'btn-details btn btn-primary', style: 'font-family: "Quicksand", sans-serif;' %>
+          <p style="font-family: 'Quicksand', sans-serif;"></p>
       </div>
     </div>
   <% end %>
 </div>
 
-<style>
-  /* 画像のサイズを調整 */
-  .profile-img {
-    width: 50px;  /* 幅を50pxに設定 */
-    height: 50px;  /* 高さを50pxに設定 */
-    object-fit: cover;  /* 画像が円形に収まるように調整 */
-  }
-  /* アイコンボタンのスタイル調整 */
-  .btn {
-    display: flex;
-    flex-direction: column; /* アイコンとテキストを縦に並べる */
-    align-items: center;
-    border: none;  /* 外枠を消す */
-    outline: none;  /* フォーカス時の枠線も消す */
-    background-color: #007bff;  /* ボタンの背景色 */
-    color: white;  /* テキスト色 */
+  <style>
+    /* 画像のサイズを調整 */
+    .profile-img {
+      width: 60px;  /* 幅を50pxに設定 */
+      height: 60px;  /* 高さを50pxに設定 */
+      object-fit: cover;  /* 画像が円形に収まるように調整 */
+    }
+
+ 
+    /* 画像の正方形を維持するための修正 */
+  .card-img-top {
+    width: 100%;          /* 親要素に合わせて幅を100% */
+    height: 200px;        /* 高さを固定して正方形にする */
+    object-fit: cover;    /* 画像の縦横比を保ちつつ、領域に収める */
   }
 
-  .btn i {
+    /* Uploadボタンのスタイル */
+  .btn-upload {
+    width: 60px;  /* 幅を変更 */
+    height: 60px;  /* 高さを変更 */
+    background-color: #b3e6b3;  /* 背景色 */
+    color: white;  /* テキスト色 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;  /* 外枠を消す */
+    outline: none;  /* フォーカス時の枠線を消す */
+  }
+
+  .btn-upload i {
     margin-bottom: 5px;  /* アイコンとテキストの間にスペースを追加 */
   }
 
-  /* ボタンにマウスオーバー時のスタイル */
-  .btn:hover {
-    background-color: #0056b3;  /* ボタンのホバー時の色 */
+  /* View Detailsボタンのスタイル */
+  .btn-details {
+    width: 150px;  /* 幅を変更 */
+    height: 45px;  /* 高さを変更 */
+    background-color: #b3e6b3;  /* 背景色 */
+    color: white;  /* テキスト色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;  /* 外枠を消す */
+    outline: none;  /* フォーカス時の枠線を消す */
+  }
+
+  /* ホバー時のスタイル */
+  .btn-details:hover {
+    background-color: #004085;  /* ホバー時の色 */
   }
 
   /* ボタンをクリックしたときの効果 */
   .btn:focus {
     outline: none;  /* フォーカス時の枠線を消す */
   }
-</style>
+  </style>
 </html>
