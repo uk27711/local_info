@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Page</title>
+    <title>Post Details</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -14,24 +14,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/b00ef6c67b.js" crossorigin="anonymous"></script>
-    </head>
+  </head>
 
 <body>
 <!-- 投稿したユーザーのプロフィールリンク -->
   <table class='table'>
     <tr>
       <td class="d-flex align-items-center justify-content-start">
-        <%= link_to user_path(@user) do %> <!-- ユーザーの投稿一覧ページにリンク -->
-          <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle mr-2 profile-img" %>
-          <p style="font-family: 'Quicksand', sans-serif;"><%= @user.name %></p>
+        <%= link_to user_path(@post.user) do %> <!-- ユーザーの投稿一覧ページにリンク -->
+          <%= image_tag @post.user.get_profile_image(100,100), class: "rounded-circle mr-2 profile-img" %>
+          <p style="font-family: 'Quicksand', sans-serif;"><%= @post.user.name %></p>
         <% end %>
       </td>
     </tr>
   </table>
 
 <!-- 投稿一覧 -->
-    <div class="d-flex flex-wrap justify-content-center">
-      <% @user.posts.each do |post| %>
+    <div class= "d-flex flex-wrap justify-content-center">
+      <% @post.user.posts.each do |post| %>
         <div class="card" style="width: 18rem; margin: 10px;">
           <% if post.image.attached? %>
             <%= image_tag post.image.variant(resize_to_limit: [300, 300]).processed, class: 'card-img-top square-img' %>
@@ -40,14 +40,12 @@
           <% end %>
           <div class="card-body">
             <h5 class="card-title"><%= post.title %></h5>
-
+            <p class="card-text"><%= post.body %></p>
             <!-- 投稿者本人のみeditとdestroyリンクを表示 -->
             <% if current_user == post.user %>
               <%= link_to 'Edit', edit_post_path(post), class: 'text-dark' %>
               <%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure you want to delete this post?' }, class: 'text-dark' %>
             <% end %>
-
-            <%= link_to 'View Details', post_path(post), class: 'text-dark' %>
           </div>
         </div>
       <% end %>
@@ -69,5 +67,24 @@
     object-fit: cover;    /* 画像の縦横比を保ちつつ、領域に収める */
   }
 
+  .card-body {
+  display: flex;                /* Flexboxを使用 */
+  justify-content: center;      /* 横方向に中央揃え */
+  align-items: center;          /* 縦方向にも中央揃え */
+  gap: 20px;                    /* アイテム間にスペースを追加（任意） */
+}
+
+  .card-body a:last-child {
+  margin-left: 10px;  /* delete リンクの左側にスペースを追加 */
+}
+
+  .card-title {
+    font-weight: bold;
+    font-size: 2.0rem;
+    color: #333;
+    margin-bottom: 1rem; /* タイトルとリンクの間に少しスペース */
+  }
+
   </style>
 </html>
+
