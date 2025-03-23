@@ -24,7 +24,7 @@ Users#show
       <% end %>
 
       <!-- 投稿フォームへのリンクボタン -->
-      <%= link_to new_post_path, class: 'btn-upload btn btn-primary ml-3 d-flex flex-column align-items-center' do %>
+      <%= link_to new_post_path, class: 'btn-upload btn btn-primary ml-5 d-flex flex-column align-items-center' do %>
         <p style="font-family: 'Quicksand', sans-serif;"> <!-- フォントをQuicksandに変更 -->
           <i class="fa fa-arrow-up-from-bracket mb-2"></i><br>
           Upload
@@ -44,8 +44,16 @@ Users#show
       <% end %>
       <div class="card-body">
         <h5 class="card-title"><%= post.title %></h5>
-        <%= link_to 'View Details', post_path(post), class: 'btn-details btn btn-primary', style: 'font-family: "Quicksand", sans-serif;' %>
+
+        <!-- 詳細リンク -->
+        <%= link_to 'View Details', post_path(post), class: 'text-dark', style: 'font-family: "Quicksand", sans-serif;' %>
           <p style="font-family: 'Quicksand', sans-serif;"></p>
+        <!-- 編集リンク -->
+        <%= link_to 'Edit', edit_post_path(post), class: 'text-dark', style: 'font-family: "Quicksand", sans-serif;' %>
+        <!-- 削除リンク -->
+        <%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure you want to delete this post?' }, class: 'text-dark', style: 'font-family: "Quicksand", sans-serif;' %>
+
+        
       </div>
     </div>
   <% end %>
@@ -59,7 +67,6 @@ Users#show
       object-fit: cover;  /* 画像が円形に収まるように調整 */
     }
 
- 
     /* 画像の正方形を維持するための修正 */
   .card-img-top {
     width: 100%;          /* 親要素に合わせて幅を100% */
@@ -84,27 +91,23 @@ Users#show
     margin-bottom: 5px;  /* アイコンとテキストの間にスペースを追加 */
   }
 
-  /* View Detailsボタンのスタイル */
-  .btn-details {
-    width: 150px;  /* 幅を変更 */
-    height: 45px;  /* 高さを変更 */
-    background-color: #b3e6b3;  /* 背景色 */
-    color: white;  /* テキスト色 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;  /* 外枠を消す */
-    outline: none;  /* フォーカス時の枠線を消す */
+  .card-body {
+  display: flex;                /* Flexboxを使用 */
+  justify-content: center;      /* 横方向に中央揃え */
+  align-items: center;          /* 縦方向にも中央揃え */
+  gap: 10px;                    /* アイテム間にスペースを追加（任意） */
+}
+
+  .card-body a:last-child {
+  margin-left: 10px;  /* delete リンクの左側にスペースを追加 */
+}
+
+  .card-title {
+    font-weight: bold;
+    font-size: 2.0rem;
+    color: #333;
+    margin-bottom: 1rem; /* タイトルとリンクの間に少しスペース */
   }
 
-  /* ホバー時のスタイル */
-  .btn-details:hover {
-    background-color: #004085;  /* ホバー時の色 */
-  }
-
-  /* ボタンをクリックしたときの効果 */
-  .btn:focus {
-    outline: none;  /* フォーカス時の枠線を消す */
-  }
   </style>
 </html>
