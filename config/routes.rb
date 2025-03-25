@@ -10,5 +10,13 @@ Rails.application.routes.draw do
   end
     resources :users, only: [:new, :create, :show, :edit, :update, :index, :destroy] do
       get 'my_page', on: :collection, to: 'users#show', as: 'my_page'
-  end 
+  end
+
+  resources :posts do
+    member do
+      delete 'delete_image' # 画像削除のためのルートを追加
+    end
+  end
+
+
 end

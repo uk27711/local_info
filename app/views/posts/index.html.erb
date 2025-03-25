@@ -1,2 +1,102 @@
-<h1>Posts#index</h1>
-<p>Find me in app/views/posts/index.html.erb</p>
+Posts#index
+
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts Index</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b00ef6c67b.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- 投稿者ごとの投稿一覧 -->
+      <div class="d-flex flex-wrap justify-content-center">
+        <% @posts.each do |post| %>
+          <div class="card" style="width: 18rem; margin: 10px;">
+            
+            <!-- 投稿者情報表示 -->
+            <div class="card-header d-flex align-items-center">
+              <%= link_to user_path(post.user) do %> <!-- ユーザーのプロフィールページへのリンク -->
+                <%= image_tag post.user.get_profile_image(60, 60), class: "profile-img rounded-circle mr-2" %>
+                <p style="font-family: 'Quicksand', sans-serif;"><%= post.user.name %></p>
+              <% end %>
+            </div>
+
+            <!-- 投稿画像 -->
+            <% if post.image.attached? %>
+              <%= image_tag post.image.variant(resize_to_limit: [300, 300]).processed, class: 'card-img-top square-img' %>
+            <% else %>
+              <%= image_tag 'no_image.png', class: 'card-img-top square-img' %>
+            <% end %>
+
+            <!-- 投稿本文 -->
+            <div class="card-body">
+              <h5 class="card-title"><%= post.title %></h5>
+              <p class="card-text"><%= post.body.truncate(100) %></p> <!-- 投稿内容を省略して表示 -->
+            </div>
+
+            <!-- 詳細リンク -->
+            <div class="card-footer d-flex justify-content-between">
+              <%= link_to 'View Details', post_path(post), class: 'btn btn-info btn-sm' %>
+      
+              <!-- ログインユーザーが投稿の所有者の場合のみ編集・削除リンクを表示 -->
+              <% if current_user == post.user %>
+                <%= link_to 'Edit', edit_post_path(post), class: 'btn btn-warning btn-sm' %>
+                <%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </body>
+  
+  <style>
+    /* 画像のサイズ調整 */
+    .card-img-top {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    /* ユーザーのプロフィール画像 */
+    .profile-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+
+    /* ユーザー名 */
+    .card-header {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+    }
+
+    /* 投稿タイトル */
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    /* 投稿本文 */
+    .card-text {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+    }
+
+    /* 投稿詳細リンク */
+    .card-footer a {
+      font-family: 'Quicksand', sans-serif;
+    }
+  </style>
+</html>

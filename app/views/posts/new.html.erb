@@ -1,12 +1,26 @@
-<h1>Posts#new</h1>
+Posts#new
 
-<h1>画像投稿フォーム</h1>
+<h3>画像投稿フォーム</h3>
 <%= form_with model: @post do |f| %>
+  <!-- エラーメッセージの表示 -->
+  <% if @post.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <h4>Image</h4>
   <%= f.file_field :image, accept: "image/*" %>
+  
   <h4>Title</h4>
   <%= f.text_field :title %>
+
   <h4>information</h4>
   <%= f.text_area :body %>
+
   <%= f.submit '投稿' %>
 <% end %>

@@ -1,1 +1,117 @@
 index
+
+Users#show
+<!DOCTYPE html>
+<html lang="ja">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Page</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b00ef6c67b.js" crossorigin="anonymous"></script>
+
+
+<table class='table'>
+  <tr>
+    <td class="d-flex align-items-center justify-content-start">
+      <%= link_to edit_user_path(id: @user.id) do %>
+        <%= image_tag @user.get_profile_image(100,100), class: "rounded-circle mr-2 profile-img" %>
+        <p style="font-family: 'Quicksand', sans-serif;"><%= @user.name %></p> <!-- フォントをQuicksandに変更 -->
+      <% end %>
+
+      <!-- 投稿フォームへのリンクボタン -->
+      <%= link_to new_post_path, class: 'btn-upload btn btn-primary ml-5 d-flex flex-column align-items-center' do %>
+        <p style="font-family: 'Quicksand', sans-serif;"> <!-- フォントをQuicksandに変更 -->
+          <i class="fa fa-arrow-up-from-bracket mb-2"></i><br>
+          Upload
+        </p>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<div class="d-flex flex-wrap justify-content-center">
+  <% @user.posts.each do |post| %>
+    <div class="card" style="width: 18rem; margin: 10px;">
+      <% if post.image.attached? %>
+        <%= image_tag post.image.variant(resize_to_limit: [300, 300]).processed, class: 'card-img-top square-img' %>
+      <% else %>
+        <%= image_tag 'no_image.png', class: 'card-img-top square-img' %>
+      <% end %>
+      <div class="card-body" style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 20px;">
+        <h5 class="card-title"><%= post.title %></h5>
+
+        <!-- 詳細リンク、編集リンク、削除リンクを横並びに -->
+        <div class="d-flex justify-content-between">
+          <!-- 詳細リンク -->
+          <%= link_to 'View Details', post_path(post), style: 'font-family: "Quicksand", sans-serif; color: #b3e6b3;' %>
+          <!-- 編集リンク -->
+          <%= link_to 'Edit', edit_post_path(post), style: 'font-family: "Quicksand", sans-serif; color: #b3e6b3;' %>
+          <!-- 削除リンク -->
+          <%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure you want to delete this post?' }, style: 'font-family: "Quicksand", sans-serif; color: #b3e6b3;' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+  <style>
+    /* 画像のサイズを調整 */
+    .profile-img {
+      width: 60px;  /* 幅を50pxに設定 */
+      height: 60px;  /* 高さを50pxに設定 */
+      object-fit: cover;  /* 画像が円形に収まるように調整 */
+    }
+
+    /* 画像の正方形を維持するための修正 */
+  .card-img-top {
+    width: 100%;          /* 親要素に合わせて幅を100% */
+    height: 200px;        /* 高さを固定して正方形にする */
+    object-fit: cover;    /* 画像の縦横比を保ちつつ、領域に収める */
+  }
+
+    /* Uploadボタンのスタイル */
+  .btn-upload {
+    width: 60px;  /* 幅を変更 */
+    height: 60px;  /* 高さを変更 */
+    background-color: #b3e6b3;  /* 背景色 */
+    color: white;  /* テキスト色 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;  /* 外枠を消す */
+    outline: none;  /* フォーカス時の枠線を消す */
+  }
+
+  .btn-upload i {
+    margin-bottom: 5px;  /* アイコンとテキストの間にスペースを追加 */
+  }
+
+  display: flex;
+  flex-direction: column; /* 内容を縦並び */
+  justify-content: center; /* 中央揃え */
+  padding-left: 20px; /* 左にスペースを追加 */
+  max-width: 70%; /* 画像部分の幅を考慮して最大幅を設定 */
+  word-wrap: break-word;  /* 長い単語やリンクが折り返されるように設定 */
+  overflow-wrap: break-word; /* 複雑な長い単語が折り返されるように設定 */
+}
+
+  .card-body a:last-child {
+  margin-left: 10px;  /* delete リンクの左側にスペースを追加 */
+}
+
+  .card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem; /* タイトルとリンクの間に少しスペース */
+  }
+
+  </style>
+</html>
