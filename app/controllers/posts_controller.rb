@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show] # 認証が必要なアクション
   before_action :set_post, only: [:show, :edit, :update, :destroy, :delete_image]
+  before_action :correct_user, only: [:edit, :update, :destroy]  # 追加：投稿の所有者を確認
 
   def new
     @post = Post.new
@@ -55,5 +56,12 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:title, :image, :body)
+  end
+
+  # 投稿の所有者か確認
+  def correct_user
+    if @post.user != current_user
+      redirect_to root_path, alert: "You are not authorized to perform this action."
+    end
   end
 end

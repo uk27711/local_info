@@ -1,26 +1,102 @@
 Posts#new
 
-<h3>画像投稿フォーム</h3>
-<%= form_with model: @post do |f| %>
-  <!-- エラーメッセージの表示 -->
-  <% if @post.errors.any? %>
-    <div class="alert alert-danger">
-      <ul>
-        <% @post.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+<!DOCTYPE html>
+<html lang="ja">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts New</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b00ef6c67b.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <div class="form-container">
+      <%= form_with model: @post do |f| %>
+        <!-- エラーメッセージの表示 -->
+        <% if @post.errors.any? %>
+          <div class="alert alert-danger">
+            <ul>
+              <% @post.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
+
+        <h4>Image</h4>
+        <%= f.file_field :image, accept: "image/*" %>
+
+        <h4>Title</h4>
+        <%= f.text_field :title %>
+
+        <h4>Information</h4>
+        <%= f.text_area :body %>
+
+        <%= f.submit '投稿' %>
+      <% end %>
     </div>
-  <% end %>
+  </body>
 
-  <h4>Image</h4>
-  <%= f.file_field :image, accept: "image/*" %>
-  
-  <h4>Title</h4>
-  <%= f.text_field :title %>
+<style>
+  /* 全体のフォント設定（英語） */
+  body {
+    font-family: 'Quicksand', sans-serif; /* 英語用 */
+  }
 
-  <h4>information</h4>
-  <%= f.text_area :body %>
+  /* 日本語部分のフォント設定 */
+  body, form {
+    font-family: 'M PLUS Rounded 1c', 'Quicksand', sans-serif; /* 日本語をM+PLUS+Rounded 1c、英語をQuicksandに設定 */
+  }
 
-  <%= f.submit '投稿' %>
-<% end %>
+  /* フォーム全体を中央に配置 */
+  .form-container {
+    max-width: 600px;  /* 最大幅を設定 */
+    margin: 0 auto;    /* 左右中央寄せ */
+    padding: 20px;     /* 内部の余白 */
+    background-color: #f9f9f9; /* 背景色 */
+    border-radius: 8px;  /* 角を丸く */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽いシャドウを追加 */
+  }
+
+  /* フォーム内の入力フィールドに少し余白を追加 */
+  form input, form textarea {
+    width: 100%;       /* 幅を100%にして、親要素に合わせる */
+    padding: 10px;     /* 内部余白 */
+    margin-bottom: 10px; /* 各入力フィールドの間にスペース */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 4px;  /* 枠を丸く */
+  }
+
+  /* ボタンのスタイル */
+  form input[type="submit"] {
+    background-color: #007bff; /* 青色の背景 */
+    color: white;              /* 白色の文字 */
+    border: none;              /* 枠線なし */
+    padding: 10px 20px;        /* ボタン内の余白 */
+    cursor: pointer;          /* カーソルをポインターに */
+    border-radius: 4px;        /* 角を丸く */
+    font-size: 16px;           /* 文字サイズ */
+  }
+
+  form input[type="submit"]:hover {
+    background-color: #0056b3; /* ホバー時の色 */
+  }
+
+  /* 投稿画像のボタン周りの枠線を消す */
+  input[type="file"] {
+    border: none;  /* 枠線を消す */
+    outline: none; /* フォーカス時の枠線も消す */
+    padding: 0;    /* 余白を消す */
+    background: none; /* 背景も消す */
+  }
+</style>
+
+</html>

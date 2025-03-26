@@ -8,21 +8,21 @@
         <% if @post.image.attached? %>
           <div class="form-group">
             <label>Current Image</label>
-            <%= image_tag @post.image, size: "200x250", class: "img-fluid" %> <!-- 画像を表示 -->
+            <%= image_tag @post.image, size: "400x400", class: "img-fluid" %> <!-- 画像を表示 -->
             <br>
             <!-- 画像削除用のボタン -->
-            <%= link_to 'Delete Image', delete_image_post_path(@post), method: :delete, data: { confirm: 'Are you sure you want to delete this image?' }, class: "btn btn-danger btn-sm mt-2" %>
+              <%= link_to 'Delete Image', delete_image_post_path(@post), method: :delete, data: { confirm: 'Are you sure you want to delete this image?' }, class: "btn btn-danger btn-sm mt-2" %>
           </div>
         <% end %>
       </div>
 
-      <div class="col-md-6"> <!-- フォーム部分 -->
+      <div class="col-md-5"> <!-- フォーム部分 -->
         <%= form_with(model: @post, url: post_path(@post), local: true, authenticity_token: true, method: :patch, html: { multipart: true }) do |f| %>
           
           <!-- 画像アップロードフォームを画像の下に配置 -->
           <div class="form-group">
             <label for="post_image">Upload a new image</label>
-            <%= f.file_field :image %> <!-- 新しい画像をアップロードするフォーム -->
+            <%= f.file_field :image %>
           </div>
 
           <div class="form-group">
