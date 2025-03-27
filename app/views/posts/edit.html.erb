@@ -11,7 +11,7 @@
             <%= image_tag @post.image, size: "400x400", class: "img-fluid" %> <!-- 画像を表示 -->
             <br>
             <!-- 画像削除用のボタン -->
-              <%= link_to 'Delete Image', delete_image_post_path(@post), method: :delete, data: { confirm: 'Are you sure you want to delete this image?' }, class: "btn btn-danger btn-sm mt-2" %>
+            <%= link_to 'Delete Image', delete_image_post_path(@post), method: :delete, data: { confirm: 'Are you sure you want to delete this image?' }, class: "btn btn-danger btn-sm mt-2 delete-button" %>
           </div>
         <% end %>
       </div>
@@ -19,11 +19,16 @@
       <div class="col-md-5"> <!-- フォーム部分 -->
         <%= form_with(model: @post, url: post_path(@post), local: true, authenticity_token: true, method: :patch, html: { multipart: true }) do |f| %>
           
-          <!-- 画像アップロードフォームを画像の下に配置 -->
-          <div class="form-group">
-            <label for="post_image">Upload a new image</label>
-            <%= f.file_field :image %>
-          </div>
+          <!-- 画像アップロードフォーム -->
+          <span class="picture">
+            <!-- label の for 属性に input の id を合わせる -->
+            <label for="dreampost_picture_field">
+              <i class="far fa-image"></i> Upload a photo
+            </label>
+            <!-- input の id 属性を変更して label と関連付ける -->
+            <%= f.file_field :picture, id: "dreampost_picture_field", class: 'file-input', accept: 'image/jpeg,image/gif,image/png' %>
+            <div class="clear"></div> 
+          </span>
 
           <div class="form-group">
             <label for="post_title">Title</label>
@@ -56,3 +61,46 @@
     </div>
   </div>
 </html>
+
+<style>
+/* input[type="file"] を非表示にする */
+.file-input {
+    display: none; /* <input> を非表示にする */
+}
+
+/* アイコンとテキストの間隔を広げる */
+.picture label {
+    cursor: pointer; /* ラベルをクリック可能にする */
+    display: inline-flex; /* アイコンとテキストを横並びに */
+    align-items: center; /* アイコンとテキストを縦方向で中央揃え */
+}
+
+.picture label i {
+    margin-right: 8px; /* アイコンとテキストの間に間隔を追加 */
+    font-size: 20px; /* アイコンのサイズを調整 */
+}
+
+/* テキストとアイコンの色を変更 */
+.picture label {
+    color: #dc3545; /* テキストの色を青に設定 */
+}
+
+.picture label i {
+    color: #dc3545; /* アイコンの色を緑に設定 */
+}
+
+/* Delete Image ボタンのカスタマイズ */
+.delete-button {
+    background: none;  /* 背景色を透明に */
+    border: none;      /* 枠線を無くす */
+    color: #dc3545;    /* 文字色を btn-danger の赤色に */
+    font-size: 16px;   /* フォントサイズの調整 */
+    padding: 0;        /* ボタンのパディングをリセット */
+}
+
+/* ホバー時のスタイル変更 */
+.delete-button:hover {
+    color: white    /* ホバー時の文字色 */
+    text-decoration: underline; /* ホバー時に下線を追加 */
+}
+</style>

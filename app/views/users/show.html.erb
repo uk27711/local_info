@@ -21,7 +21,7 @@
         <% end %>
 
         <!-- ログインしているユーザーのみ、Uploadボタンを表示 -->
-        <% if user_signed_in? %>
+        <% if current_user == @user %>
           <%= link_to new_post_path, class: 'btn-upload btn btn-primary ml-5 d-flex flex-column align-items-center' do %>
             <p style="font-family: 'Quicksand', sans-serif;">
               <i class="fa fa-arrow-up-from-bracket mb-2"></i><br>
