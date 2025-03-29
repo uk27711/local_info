@@ -43,11 +43,11 @@ Posts#show
             <p class="card-text"><%= post.body %></p>
 
             <!-- 詳細リンク、編集リンク、削除リンクを横並びに -->
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-start gap-3">
             <!-- 投稿者本人のみeditとdestroyリンクを表示 -->
               <% if current_user == post.user %>
-                <%= link_to 'Edit', edit_post_path(post), class: 'text-dark' %>
-                <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure you want to delete this post?' }, class: 'text-dark' %>
+                <%= link_to 'Edit', edit_post_path(post), class: 'mr-3 edit-link' %>
+                <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure you want to delete this post?' }, class: 'delete-link' %>
               <% end %>
             </div>
           </div>
@@ -109,6 +109,25 @@ Posts#show
     overflow-wrap: break-word;
   }
 
+  /* Editリンクの色を変更 */
+.edit-link {
+  color: #b3e6b3;
+  text-decoration: none; /* 下線を消す */
+}
+
+.edit-link:hover {
+  color:#b3e6b3; /* ホバー時の色を変更 */
+}
+
+/* Deleteリンクの色を変更 */
+.delete-link {
+  color: #b3e6b3;
+  text-decoration: none; /* 下線を消す */
+}
+
+.delete-link:hover {
+  color: #b3e6b3; /* ホバー時の色を変更 */
+}
   </style>
 </html>
 
