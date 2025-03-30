@@ -1,40 +1,160 @@
-<main>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
-        <h2>User info</h2>
-        <%= form_with model: @user do |f| %>
-          <div class="form-group">
-            <%= f.label :name %>
-            <%= f.text_field :name, class: 'form-control' %>
-          </div>
-        
-          <div class="form-group">
-            <%= f.label :image %> <br>
-            <%= f.file_field :profile_image, accept: "image/*" %>
-          </div>
+<!DOCTYPE html>
+<html lang="ja">
 
-          <div class="form-group">
-            <%= f.label :introduction %>
-            <%= f.text_area :introduction, class: 'form-control' %>
-          </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit User</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-          <%= f.submit 'Update User', class: 'btn btn-secondary' %>
-        <% end %>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/b00ef6c67b.js" crossorigin="anonymous"></script>
 
-        <% if @user.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-            <ul>
-              <% @user.errors.full_messages.each do |message| %>
+  <style>
+    /* フォント設定 */
+    body {
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body, form {
+      font-family: 'M PLUS Rounded 1c', 'Quicksand', sans-serif;
+    }
+
+    /* フォーム全体を中央に配置 */
+    .form-container {
+      width: 100%; /* 幅を100%に設定 */
+      max-width: 400px; /* 最大幅を1000pxに変更 */
+      margin: 0 auto; /* 左右中央寄せ */
+      padding: 30px; /* 内部の余白を30pxに増加 */
+      background-color: #f9f9f9; /* 背景色 */
+      border-radius: 8px; /* 角を丸く */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽いシャドウ */
+    }
+
+    /* 各入力フィールドのスタイル */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    form input, form textarea {
+      width: 100%; /* 幅を100%に */
+      padding: 10px; /* 内部余白 */
+      border: 1px solid #ccc; /* 枠線 */
+      border-radius: 4px; /* 角を丸く */
+    }
+
+    /* ボタンのスタイル */
+    form input[type="submit"] {
+      background-color: #007bff; /* 青色 */
+      color: white; /* 白色の文字 */
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #0056b3; /* ホバー時の色 */
+    }
+
+    /* 退会確認ボタンの間隔 */
+    .btn-danger {
+      margin-top: 20px; /* ボタン間のスペースを確保 */
+    }
+
+    /* ファイル入力のボタン周りのスタイル */
+    input[type="file"] {
+      border: none;
+      padding: 0;
+      background: none;
+    }
+
+    /* 画像アップロードのラベル */
+    .picture label {
+      cursor: pointer;
+      color: #B0C4DE;
+      font-family: 'M+PLUS Rounded 1c', sans-serif;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .picture label i {
+      margin-right: 8px;
+      font-size: 20px;
+      color: #B0C4DE;
+    }
+
+    .picture label:hover {
+      text-decoration: underline;
+    }
+
+    .file-input {
+      display: none; /* <input> を非表示にする */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h2>User info</h2>
+
+    <%= form_with model: @user do |f| %>
+      <!-- エラーメッセージの表示 -->
+      <% if @user.errors.any? %>
+        <div class="alert alert-danger">
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <% unless message.include?("Image") %>
                 <li><%= message %></li>
               <% end %>
-            </ul>
-          </div>
-        <% end %>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-        <%= link_to '退会確認', unsubscribe_users_path, class: 'btn btn-danger' %>
+      <!-- 名前 -->
+      <h4>Name</h4>
+      <div class="form-group">
+        <%= f.text_field :name, class: 'form-control' %>
       </div>
-    </div>
+
+      <!-- 画像 -->
+      <h4>Profile Image</h4>
+      <span class="picture">
+        <!-- 画像アップロード用ラベル -->
+        <label for="dreampost_picture_field">
+          <i class="far fa-image"></i> Upload a photo
+        </label>
+        <!-- 画像アップロード用フィールド -->
+        <%= f.file_field :profile_image, id: "dreampost_picture_field", class: 'file-input', accept: 'image/jpeg,image/gif,image/png' %>
+        <div class="clear"></div>
+      
+        <% if @user.profile_image.attached? %>
+          <!-- リサイズして画像を表示 -->
+          <%= image_tag @user.get_profile_image(150, 150), alt: "Profile Image", class: "img-fluid" %>
+        <% else %>
+          <!-- 画像がない場合に表示 -->
+          <%= image_tag 'no_image.png', alt: "No Image", class: "img-fluid" %>
+        <% end %>
+      </span>
+      
+
+      <!-- 自己紹介 -->
+      <h4>Introduction</h4>
+      <div class="form-group">
+        <%= f.text_area :introduction, class: 'form-control' %>
+      </div>
+
+      <%= f.submit 'Update User', class: 'btn btn-secondary' %>
+    <% end %>
+
+    <%= link_to '退会確認', unsubscribe_users_path, class: 'btn btn-danger' %>
   </div>
-</main>
+</body>
+
+</html>
